@@ -201,7 +201,7 @@ export default {
 							success: (res) => {
 								uni.showToast({
 									icon:"none",
-									title:'下载文件成功！'
+									title:'打开文件成功！'
 								})
 							},
 						})

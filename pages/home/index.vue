@@ -7,13 +7,13 @@
 		<view class="apply-panel" @click="goComplain">
 			<img src="../../static/icon_01.png" class="icon-panel">
 			<view class="text-panel">
-				<p class="text-title">企业诉求申请（丰城市层面）</p>
+				<p class="text-title">企业诉求申请（宜春市级层面）</p>
 				<p class="text-content">营商环境诉求申请</p>
 			</view>
 			<view class="arrow">〉</view>
 		</view>
 		<view class="declared-panel">
-			<p class="text-title">丰城市营商环境“码”上评</p>
+			<p class="text-title">事事宜人丰城“码”上评</p>
 			<p class="sub-title">企业家、市民朋友：</p>
 			<p class="content-title">您好！</p>
 			<p class="text-content">如果您在我市部门单位办事过程中，或者接受相关单位监督检查执法过程中遇到任何问题，请您如实反映，我们将严格为您保密，并对您反映的问题进行调查处理。</p>
