@@ -19,6 +19,24 @@
 			}
 		},
 		{
+			"path": "pages/issuePage/index",
+			"style": {
+				"navigationBarTitleText": "问题填报"
+			}
+		},
+		{
+			"path": "pages/issueDetail/index",
+			"style": {
+				"navigationBarTitleText": "问题列表"
+			}
+		},
+		{
+			"path": "pages/issueList/index",
+			"style": {
+				"navigationBarTitleText": "问题列表"
+			}
+		},
+		{
 			"path": "pages/complainList/index",
 			"style": {
 				"navigationBarTitleText": "查询办理进度"

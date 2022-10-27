@@ -4,14 +4,24 @@
 			事事
 			<span class="blue">宜人-丰城码上评</span>
 		</view>
-		<view class="apply-panel" @click="goComplain">
-			<img src="../../static/icon_01.png" class="icon-panel">
-			<view class="text-panel">
-				<p class="text-title">企业诉求申请（宜春市级层面）</p>
-				<p class="text-content">营商环境诉求申请</p>
+		<view class="apply-nav" >
+			<view class="apply-panel" @click="goComplain" style="margin-right: 20rpx;">
+				<img src="../../static/icon_01.png" class="icon-panel">
+				<view class="text-panel">
+					<p class="text-title">企业诉求</p>
+					<p class="text-content">营商环境诉求申请</p>
+				</view>
+				<!-- <view class="arrow">〉</view> -->
 			</view>
-			<view class="arrow">〉</view>
+			<view class="apply-panel" @click="goIssues">
+				<img src="../../static/icon_01.png" class="icon-panel">
+				<view class="text-panel">
+					<p class="text-title">问题填报</p>
+					<p class="text-content">营商环境问题调研</p>
+				</view>
+			</view>
 		</view>
+		
 		<view class="declared-panel">
 			<p class="text-title">事事宜人丰城“码”上评</p>
 			<p class="sub-title">企业家、市民朋友：</p>
@@ -252,6 +262,11 @@ export default {
 				url: '/pages/complain/index'
 			})
 		},
+		goIssues(){
+			uni.navigateTo({
+				url: '/pages/issuePage/index'
+			})
+		},
 		getUnion() {
 			this.$api.getData({
 				'cmd.sqlKey': 'MSP_WX_LHC.SEL_SELECT',
@@ -481,8 +496,10 @@ export default {
 
 <style lang="scss" scoped>
 .home-panel {
+	background: #F6F8FB;
 	.title {
-		margin: 38rpx 48rpx;
+		padding-top:38rpx ;
+		margin: 0 38rpx 48rpx;
 		font-size: 36rpx;
 		color: #0F172A;
 		font-family: Poppins;
@@ -494,41 +511,44 @@ export default {
 			color: #506AF0;
 		}
 	}
-	.apply-panel {
-		width: 90vw;
-		height: 192rpx;
-		margin: 32rpx auto;
+	.apply-nav{
+		width: 95vw;
 		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 20rpx;
-		background: #FDF7F2;
-		border: 2rpx solid #FFE1CA;
-		.icon-panel {
-			width: 96rpx;
-			height: 96rpx;
-		}
-		.text-panel {
-			margin: 0 32rpx;
-			.text-title {
-				color: #263343;
-				font-family: Source Han Sans CN;
-				font-weight: medium;
-				font-size: 32rpx;
-				line-height: 48rpx;
-				text-align: left;
+		justify-content: space-between;
+		margin: 32rpx auto;
+		.apply-panel {
+			width: 50%;
+			height: 220rpx;
+			align-items: center;
+			border-radius: 20rpx;
+			background: #FFFFFF;
+			.icon-panel {
+				width: 86rpx;
+				height: 86rpx;
+				margin: 15rpx 0 6rpx 22rpx;
 			}
-			.text-content {
-				color: #64748B;
-				font-family: Source Han Sans CN;
-				font-weight: regular;
-				font-size: 26rpx;
-				line-height: 40rpx;
-				text-align: left;
+			.text-panel {
+				margin: 0 32rpx;
+				.text-title {
+					color: #263343;
+					font-family: Source Han Sans CN;
+					font-weight: medium;
+					font-size: 32rpx;
+					line-height: 48rpx;
+					text-align: left;
+				}
+				.text-content {
+					color: #64748B;
+					font-family: Source Han Sans CN;
+					font-weight: regular;
+					font-size: 26rpx;
+					line-height: 40rpx;
+					text-align: left;
+				}
 			}
-		}
-		.arrow {
-			color: #7D8288;
+			.arrow {
+				color: #7D8288;
+			}
 		}
 	}
 	.declared-panel {
