@@ -81,7 +81,6 @@
 					uni.getUserProfile({
 						desc:"用于完善用户信息",
 						success: (res) => {
-							console.log(res)
 							this.$store.commit('getUserinfo', res.userInfo)
 							this.avatar = res.userInfo.avatarUrl
 							this.name = res.userInfo.nickName
@@ -95,8 +94,15 @@
 									var code = res.code
 									this.$api.login({
 										code: code
-									}).then(res => {
-										this.$store.commit('login', res)
+									}).then(resp => {
+										if(resp.openid) {
+											this.$store.commit('login', resp)
+										}else {
+											uni.showToast({
+												icon:"none",
+												title:'获取openid失败！'
+											})
+										}
 										this.getStatistics()
 									}).catch(err => {
 										console.log(err)
