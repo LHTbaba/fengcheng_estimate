@@ -40,11 +40,25 @@
 			//确认
 			confirm(){
 				this.$refs.form.validate().then(res=>{
-					uni.navigateTo({
-						url: '/pages/issueDetail/index',
-						
+					console.log('校验通过')
+					uni.request({
+						method:'GET',
+						url: "https://fcmsp.zjwq.net/loadDataNoReturnCA",
+						data: {
+							'cmd.sqlKey':'SF_EDU.WJ_LIST',
+							'cmd.sqlType':'proc',
+							'cmd.QQYSH':this.formData.Num,
+						},
+						success: ((res) => {
+							// console.log(res.data);
+							var data = res.data;
+							// console.log(data)
+							uni.navigateTo({
+								url: '/pages/issueDetail/index?list= ' + JSON.stringify(data),
+							})
+							
+						})
 					})
-
 				}).catch(err =>{
 					console.log('表单错误信息：', err);
 				})
