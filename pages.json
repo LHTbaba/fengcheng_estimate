@@ -37,6 +37,12 @@
 			}
 		},
 		{
+			"path": "pages/Nothing/index",
+			"style": {
+				"navigationBarTitleText": "问题列表"
+			}
+		},
+		{
 			"path": "pages/complainList/index",
 			"style": {
 				"navigationBarTitleText": "查询办理进度"

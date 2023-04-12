@@ -15,7 +15,7 @@
 		data(){
 			return {
 				formData:{
-					Num:'',
+					Num:'',//Z000000123456780
 				},
 				rules: {
 					Num: {
@@ -25,8 +25,8 @@
 								errorMessage: '请输入企业税号码',
 							},
 							{
-								minLength: 3,
-								maxLength: 5,
+								minLength: 15,
+								maxLength: 20,
 								// pattern:/^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/,
 								errorMessage: '请输入正确的税号',
 							}
@@ -36,28 +36,25 @@
 			}
 
 		},
+		onLoad(option) {
+		  if(!this.$store.state.hasLogin) {
+		    uni.showToast({
+		      icon:"none",
+		      title:'请先登录！'
+		    })
+		    setTimeout(function() {
+		      uni.reLaunch({
+		        url: '/pages/user/index'
+		      })
+		    }, 1000)
+		  }
+		},
 		methods:{
 			//确认
 			confirm(){
 				this.$refs.form.validate().then(res=>{
-					console.log('校验通过')
-					uni.request({
-						method:'GET',
-						url: "https://fcmsp.zjwq.net/loadDataNoReturnCA",
-						data: {
-							'cmd.sqlKey':'SF_EDU.WJ_LIST',
-							'cmd.sqlType':'proc',
-							'cmd.QQYSH':this.formData.Num,
-						},
-						success: ((res) => {
-							// console.log(res.data);
-							var data = res.data;
-							// console.log(data)
-							uni.navigateTo({
-								url: '/pages/issueDetail/index?list= ' + JSON.stringify(data),
-							})
-							
-						})
+					uni.navigateTo({
+						url: '/pages/issueDetail/index?num= ' + JSON.stringify(this.formData.Num),
 					})
 				}).catch(err =>{
 					console.log('表单错误信息：', err);

@@ -12,8 +12,30 @@
 			</view>
 		</view>
 		<view class="" v-show="Inv == 0" >
-			<view v-for="(item,issueDetail) in issueDetail" >
-				<view class="issue-list" @click="goAnswer">
+			<view v-for="item in issueDetail">
+				<view class="issue-list" @click="goAnswer(item)">
+					<view class="issue-title">{{item.WJ_NAME}}</view>
+					<view class="issue-state">
+						<view>
+							<icon type="" v-if="item.SFYT==0" class="block-noyet"></icon>
+							<icon type="" v-if="item.SFYT==1" class="block-done"></icon>
+							<text v-if="item.SFYT==0" class="state-noyet">{{item.SFYT==0?'未填':item.SFYT==1?'已填':''}}</text>
+							<text v-else-if="item.SFYT==1" class="state-done">{{item.SFYT==0?'未填':item.SFYT==1?'已填':''}}</text>
+						</view>
+						<view class="num">问题数量：{{item.QUESTION_NUM}}题</view>
+					</view>
+				</view>
+
+			</view>
+			<view v-if="issueDetail.length <= 0">
+				<view class="issue-none" >
+					暂无问卷！
+				</view>
+			</view>
+		</view>
+		<view class="" v-show="Inv == 1">
+			<view v-for="item in issueDetail"  v-if="item.SFYT==1">
+				<view class="issue-list" @click="goAnswer(item)">
 					<view class="issue-title">{{item.WJ_NAME}}</view>
 					<view class="issue-state">
 						<view>
@@ -26,36 +48,30 @@
 					</view>
 				</view>
 			</view>
-		</view>
-		<view class="" v-show="Inv == 1">
-			<view v-for="(item,index) in novel" :key = "item.id" v-if="item.state==1">
-				<view class="issue-list" @click="goAnswer">
-					<view class="issue-title">{{item.title}}</view>
-					<view class="issue-state">
-						<view>
-							<icon type="" v-if="item.state==0" class="block-noyet"></icon>
-							<icon type="" v-if="item.state==1" class="block-done"></icon>
-							<text v-if="item.state==0" class="state-noyet">{{item.state==0?'未填':item.state==1?'已填':''}}</text>
-							<text v-else="item.state==1" class="state-done">{{item.state==0?'未填':item.state==1?'已填':''}}</text>
-						</view>
-						<view class="num">问题数量：{{item.num}}题</view>
-					</view>
+			<view v-if="issueDetail.length <= 0">
+				<view class="issue-none" >
+					暂无问卷！
 				</view>
 			</view>
 		</view>
 		<view class="" v-show="Inv == 2">
-			<view v-for="(item,index) in novel" :key = "item.id" v-if="item.state==0">
-				<view class="issue-list" @click="goAnswer">
-					<view class="issue-title">{{item.title}}</view>
+			<view v-for="item in issueDetail"  v-if="item.SFYT==0">
+				<view class="issue-list" @click="goAnswer(item)">
+					<view class="issue-title">{{item.WJ_NAME}}</view>
 					<view class="issue-state">
 						<view>
-							<icon type="" v-if="item.state==0" class="block-noyet"></icon>
-							<icon type="" v-if="item.state==1" class="block-done"></icon>
-							<text v-if="item.state==0" class="state-noyet">{{item.state==0?'未填':item.state==1?'已填':''}}</text>
-							<text v-else="item.state==1" class="state-done">{{item.state==0?'未填':item.state==1?'已填':''}}</text>
+							<icon type="" v-if="item.SFYT==0" class="block-noyet"></icon>
+							<icon type="" v-if="item.SFYT==1" class="block-done"></icon>
+							<text v-if="item.SFYT==0" class="state-noyet">{{item.SFYT==0?'未填':item.SFYT==1?'已填':''}}</text>
+							<text v-else-if="item.SFYT==1" class="state-done">{{item.SFYT==0?'未填':item.SFYT==1?'已填':''}}</text>
 						</view>
-						<view class="num">问题数量：{{item.num}}题</view>
+						<view class="num">问题数量：{{item.QUESTION_NUM}}题</view>
 					</view>
+				</view>
+			</view>
+			<view v-if="issueDetail.length <= 0">
+				<view class="issue-none" >
+					暂无问卷！
 				</view>
 			</view>
 		</view>
@@ -70,35 +86,30 @@
 		data(){
 			return {
 				Inv:0,
-				issueDetail:[],				
-				novel:[
-					{
-						id:'0',
-						title:'针对企业营商环境评价专题调研',
-						state:'1',
-						num:'20',
-					},
-					{
-						id:'1',
-						title:'针对企业营商环境评价专题调研',
-						state:'0',
-						num:'30',
-					},
-					{
-						id:'2',
-						title:'针对企业营商环境评价专题调研',
-						state:'0',
-						num:'30',
-					},
-				]
+				issueDetail:[],
+				num:null,
 			}
 			
 		},
 		onLoad(data) {
-			
-			// console.log(JSON.parse(data.list))
-			this.issueDetail = JSON.parse(data.list)
-			console.log(this.issueDetail)
+			this.num = JSON.parse(data.num)
+		},
+		onShow() {
+			uni.request({
+				method:'POST',
+				header: {
+					'content-type': 'application/x-www-form-urlencoded',
+					},
+				url: "https://fcmsp.zjwq.net/loadDataNoReturnCA",
+				data: {
+					'cmd.sqlKey':'SF_EDU.WJ_LIST',
+					'cmd.sqlType':'proc',
+					'cmd.QQYSH':this.num,
+				},
+				success: ((res) => {
+					this.issueDetail = res.data[0].LIST
+				})
+			})
 		},
 		methods: {
 			changeTab(Inv){
@@ -106,10 +117,49 @@
 				console.log(that.navIdx)
 			},
 			
-			goAnswer(){
-				uni.navigateTo({
-					url: '/pages/issueList/index',	
-				})
+			goAnswer(item){
+				if(item.SFYT == 1){
+					// uni.navigateTo({
+					// 	url: '/pages/Nothing/index',	
+					// })
+					uni.request({
+						method:'GET',
+						url:'https://fcmsp.zjwq.net/loadDataNoReturnCA',
+						data: {
+							'cmd.sqlKey':'SF_EDU.SHOW_FINISH_QUESTIONS',
+							'cmd.sqlType':'proc',
+							'cmd.QOPENID': this.$store.state.openid,	//openid
+							'cmd.QQYSH': item.QYSH,
+							'cmd.QWJID': item.WJID,
+						},
+						success: ((res) => {
+							console.log(res.data[0]);
+							var issue = res.data;
+							uni.navigateTo({
+								url: '/pages/Nothing/index?data=' + JSON.stringify(res.data[0]),	
+							})
+						})
+					})
+				} else {
+					uni.request({
+						method:'GET',
+						url:'https://fcmsp.zjwq.net/loadDataNoReturnCA',
+						data: {
+							'cmd.sqlKey':'SF_EDU.SHOW_QUESTIONS',
+							'cmd.sqlType':'proc',
+							'cmd.QOPENID': this.$store.state.openid,	//openid
+							'cmd.QQYSH': item.QYSH,
+							'cmd.QWJID': item.WJID,
+						},
+						success: ((res) => {
+							console.log(res.data[0]);
+							// var issue = res.data;
+							uni.navigateTo({
+								url: '/pages/issueList/index?data=' + JSON.stringify(res.data[0]),	
+							})
+						})
+					})
+				}
 			},
 		}
     }
@@ -136,6 +186,10 @@
 		.inv-h-se{
 			color: #5BA7FF;
 			border-bottom: 4upx solid #5BA7FF;
+		}
+		.issue-none{
+			font-size: 40rpx;
+			padding: 40rpx 20rpx;
 		}
 		.issue-list{
 			width: 90vw;

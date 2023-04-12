@@ -6,7 +6,7 @@
 		</view>
 		<view class="apply-nav" >
 			<view class="apply-panel" @click="goComplain" style="margin-right: 20rpx;">
-				<img src="../../static/icon_01.png" class="icon-panel">
+				<img src="../../static/icon-1.png" class="icon-panel">
 				<view class="text-panel">
 					<p class="text-title">企业诉求</p>
 					<p class="text-content">营商环境诉求申请</p>
@@ -14,7 +14,7 @@
 				<!-- <view class="arrow">〉</view> -->
 			</view>
 			<view class="apply-panel" @click="goIssues">
-				<img src="../../static/icon_01.png" class="icon-panel">
+				<img src="../../static/icon-2.png" class="icon-panel">
 				<view class="text-panel">
 					<p class="text-title">问题填报</p>
 					<p class="text-content">营商环境问题调研</p>
